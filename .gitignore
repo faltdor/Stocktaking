@@ -28,6 +28,7 @@ plugins/android.json
 plugins/ios.json
 www/
 $RECYCLE.BIN/
+C:\\nppdf32Log\\debuglog.txt
 
 .DS_Store
 Thumbs.db

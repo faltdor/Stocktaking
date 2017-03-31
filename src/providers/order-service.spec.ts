@@ -1,0 +1,52 @@
+import { TestBed, inject, async } from '@angular/core/testing';
+
+import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+
+import { OrderService } from './order-service';
+
+
+describe('Provider: Order Service',()=>{
+	let testOrder;	
+
+	beforeEach(async(()=>{
+		TestBed.configureTestingModule({
+			declarations: [
+ 
+            ],
+ 
+            providers: [
+                OrderService,
+                MockBackend,
+                BaseRequestOptions,
+                {
+                    provide: Http, 
+                    useFactory: (mockBackend, options) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                }
+            ],
+ 
+            imports: [
+ 
+            ]
+		}).compileComponents();
+	}));
+
+	beforeEach(()=>{
+		testOrder = {
+            orderNumber: 'Test Order',
+            description: 'Test Description',
+            orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)'
+        };
+	});
+
+	it('Should be able to add a single Order to orders arrays',inject([OrderService],(orderService)=>{
+		let arrayLengBefore = orderService.orders.length;
+		orderService.addOrder(testOrder);
+
+		expect(orderService.orders).toContain(testOrder);
+		expect(orderService.orders.length).toEqual(arrayLengBefore+1);
+	}));
+})

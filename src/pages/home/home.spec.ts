@@ -6,6 +6,9 @@ import { MyApp } from '../../app/app.component';
 import { HomePage } from './home';
 
 import { NavController } from 'ionic-angular';
+import { OrderService } from '../../providers/order-service';
+
+import { NavMock, OrderServiceMock } from '../../mocks';
 
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
@@ -13,6 +16,8 @@ let de: DebugElement;
 let el: HTMLElement;
  
 describe('Page: Home Page', () => {
+
+    let testOrder : Object;
  
     beforeEach(async(() => {
  
@@ -21,7 +26,8 @@ describe('Page: Home Page', () => {
             declarations: [MyApp, HomePage],
  
             providers: [
-                 NavController
+                 {provide: NavController , useClass: NavMock},
+                 {provide: OrderService , useClass: OrderServiceMock}
             ],
  
             imports: [
@@ -36,6 +42,12 @@ describe('Page: Home Page', () => {
  
         fixture = TestBed.createComponent(HomePage);
         comp    = fixture.componentInstance;
+
+        testOrder = {
+            orderNumber: 'Test Order',
+            description: 'Test Description',
+            orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)'
+        };
  
     });
  
@@ -67,6 +79,38 @@ describe('Page: Home Page', () => {
         expect(comp['title']).toEqual('Your Page');
         expect(el.textContent).toContain('Your Page');
  
+    });
+
+    it('Has a list of orders when page loaded',()=>{
+
+        comp.orders.push(testOrder);
+
+        let lengOrders= comp.orders.length;
+        expect(lengOrders).toBeGreaterThan(0);
+    });
+
+    it('Should load Orders of day from the DB    ',()=>{
+        let service = fixture.debugElement.injector.get(OrderService);
+        expect(service).toBeTruthy();
+        let firstOrder = service.orders[0];
+        comp.orders.push(firstOrder);
+
+        fixture.detectChanges();
+
+        expect(comp.orders).toContain(firstOrder);
+    });
+
+    it('should display all products contained in orders',()=>{
+        let service = fixture.debugElement.injector.get(OrderService);
+        fixture.detectChanges();
+
+        de = fixture.nativeElement.getElementsByTagName('h2');
+
+        service.orders.forEach((order,index)=>{
+            el = de[index];
+            expect(el.innerHTML).toContain(order.orderNumber);
+        })
+
     });
  
 });
