@@ -7,9 +7,14 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  title : string = 'Home';
 
   constructor(public navCtrl: NavController) {
 
+  }
+
+  changeTitle(title:string){
+  	this.title = title;
   }
 
 }
