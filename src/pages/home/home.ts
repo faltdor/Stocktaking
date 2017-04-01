@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavController ,Platform} from 'ionic-angular';
+
+import {OrderPage} from '../order/order';
 
 import { OrderService } from '../../providers/order-service';	
 import { OrderModel } from '../../model/order-model';
@@ -50,7 +51,9 @@ export class HomePage {
   	});
   }
 
-
+  addOrder():void{
+  	this.navCtrl.push(OrderPage)
+  }
 
 
   changeTitle(title:string){
