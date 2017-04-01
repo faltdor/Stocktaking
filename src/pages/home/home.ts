@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController ,Platform} from 'ionic-angular';
 
-import { OrderService } from '../../providers/order-service';
+import { OrderService } from '../../providers/order-service';	
+import { OrderModel } from '../../model/order-model';
 
 
 @Component({
@@ -11,11 +12,46 @@ import { OrderService } from '../../providers/order-service';
 })
 export class HomePage {
   title : string = 'Home';
-  orders : any = [];
+  orders: OrderModel[] = [];
 
-  constructor(public navCtrl: NavController, private orderService:OrderService) {
+  constructor(public navCtrl: NavController, 
+  			  private orderService:OrderService,
+  			  public platform: Platform) {
 
   }
+
+  ionViewDidLoad(){
+  	this.platform.ready().then(()=>{
+  		this.orderService.getOrders().then(orderList =>{
+  			let savedOrderlists: any = false;	
+  			
+  			if(typeof(orderList) != "undefined"){
+				savedOrderlists = JSON.parse(orderList);
+			}
+
+
+			if(savedOrderlists){	
+				savedOrderlists.forEach((savedOrderlist) => {
+					let loadOrderlist = new OrderModel(savedOrderlist.orderNumber,
+													   savedOrderlist.description,
+													   savedOrderlist.orderDate,
+													   savedOrderlist.items);
+
+					this.orders.push(loadOrderlist);
+					
+					loadOrderlist.orderListUpdates().subscribe(update => {
+						//this.save();
+					});
+				});
+			}		
+
+
+  		});
+  	});
+  }
+
+
+
 
   changeTitle(title:string){
   	this.title = title;

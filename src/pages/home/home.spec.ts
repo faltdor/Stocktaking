@@ -10,14 +10,14 @@ import { OrderService } from '../../providers/order-service';
 
 import { NavMock, OrderServiceMock } from '../../mocks';
 
+import { OrderModel } from '../../model/order-model';
+
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
 let de: DebugElement;
 let el: HTMLElement;
  
 describe('Page: Home Page', () => {
-
-    let testOrder : Object;
  
     beforeEach(async(() => {
  
@@ -42,13 +42,11 @@ describe('Page: Home Page', () => {
  
         fixture = TestBed.createComponent(HomePage);
         comp    = fixture.componentInstance;
-
-        testOrder = {
-            orderNumber: 'Test Order',
-            description: 'Test Description',
-            orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)'
-        };
- 
+        
+        let service = fixture.debugElement.injector.get(OrderService);
+        comp.orders.push(service.getOrder()[0]);
+        fixture.detectChanges();
+         
     });
  
     afterEach(() => {
@@ -82,8 +80,8 @@ describe('Page: Home Page', () => {
     });
 
     it('Has a list of orders when page loaded',()=>{
-
-        comp.orders.push(testOrder);
+        let service = fixture.debugElement.injector.get(OrderService);
+        comp.orders.push(service.getOrder()[0]);
 
         let lengOrders= comp.orders.length;
         expect(lengOrders).toBeGreaterThan(0);
@@ -92,7 +90,7 @@ describe('Page: Home Page', () => {
     it('Should load Orders of day from the DB    ',()=>{
         let service = fixture.debugElement.injector.get(OrderService);
         expect(service).toBeTruthy();
-        let firstOrder = service.orders[0];
+        let firstOrder = service.getOrder();
         comp.orders.push(firstOrder);
 
         fixture.detectChanges();
@@ -102,12 +100,14 @@ describe('Page: Home Page', () => {
 
     it('should display all products contained in orders',()=>{
         let service = fixture.debugElement.injector.get(OrderService);
+        
         fixture.detectChanges();
 
         de = fixture.nativeElement.getElementsByTagName('h2');
 
-        service.orders.forEach((order,index)=>{
+        service.getOrder().forEach((order,index)=>{
             el = de[index];
+            expect(el).toBeTruthy();
             expect(el.innerHTML).toContain(order.orderNumber);
         })
 
