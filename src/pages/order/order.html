@@ -16,12 +16,12 @@
 <ion-content>
 	<ion-list no-lines>
 	  <ion-item>
-	    <ion-label fixed>Order</ion-label>
-	    <ion-input type="text"></ion-input>
+	    <ion-label floating color="primary">Order</ion-label>
+	    <ion-input type="text" clearInput></ion-input>
 	  </ion-item>
 	  <ion-item>
-	    <ion-label fixed>Description</ion-label>
-	    <ion-input type="text"></ion-input>
+	    <ion-label stacked color="primary">Description</ion-label>
+	    <ion-textarea type="text" clearInput></ion-textarea>
 	  </ion-item>
 	  <ion-item>
 		  <button ion-button color="light" block (click)="addNewItem()">

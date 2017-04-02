@@ -12,7 +12,8 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'item.html'
 })
 export class ItemPage {
-
+  item :string = ''	;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {

@@ -7,12 +7,62 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Item</ion-title>
+    <ion-title text-center>Add new Item</ion-title>
   </ion-navbar>
+  <ion-searchbar placeholder="Search Item"
+	  [(ngModel)]="item"
+	  [showCancelButton]="shouldShowCancel"
+	  (ionInput)="getItems($event)"
+	  (ionCancel)="onCancel($event)">
+  </ion-searchbar>
 
 </ion-header>
 
 
 <ion-content padding>
+	<ion-list>
+	    <ion-item *ngFor="let item of items">
+	      {{ item }}
+	    </ion-item>
+  	</ion-list>
+	<!--<ion-list>
+	  <ion-item>
+	    <ion-label color="primary">Code</ion-label>
+	    <ion-input placeholder="Item Code"></ion-input>
+	  </ion-item>
+	  <ion-item>
+	    <ion-label stacked color="primary">Description</ion-label>
+	    <ion-textarea type="text"></ion-textarea>
+	  </ion-item>
+	  <ion-item>
+	    <ion-label color="primary">Unit</ion-label>
+	    <ion-input placeholder="Item Unit"></ion-input>
+	  </ion-item>
+	  <ion-item>
+	    <ion-label color="primary">Quantity</ion-label>
+	    <ion-input placeholder="Item Quantity"></ion-input>
+	  </ion-item>
+	  <ion-item>
+	    <ion-label stacked color="primary">Observations</ion-label>
+	    <ion-textarea type="text"></ion-textarea>
+	  </ion-item>
+
+  	</ion-list>-->
+  	<ion-card>
+	  <ion-card-header>
+	    item
+	  </ion-card-header>
+	  <ion-card-content>
+	    <h2>Finn</h2>
+	    <h3>Don't Know What To Do!</h3>
+	    <p>I've had a pretty messed up day. If we just...</p>
+	  </ion-card-content>
+	</ion-card>
+
+
+  	<button ion-button color="light" full (click)="addItem()">
+		  	<ion-icon name="save"></ion-icon>save
+		  </button>
+
 
 </ion-content>

@@ -11,7 +11,7 @@ import { OrderService } from '../../providers/order-service';
 import { NavMock, OrderServiceMock } from '../../mocks';
 
 import { OrderModel } from '../../model/order-model';
-
+ 
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
 let de: DebugElement;
@@ -112,5 +112,14 @@ describe('Page: Home Page', () => {
         })
 
     });
+
+    it('Should call buttom add order',()=>{
+        spyOn(comp,'addOrder');
+
+        de = fixture.debugElement.query(By.css('ion-fab button'));
+        de.triggerEventHandler('click',null);
+
+        expect(comp.addOrder).toHaveBeenCalled();
+    })
  
 });

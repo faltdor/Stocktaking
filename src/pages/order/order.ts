@@ -20,7 +20,7 @@ export class OrderPage {
   }
 
   addNewItem():void{  	
-  	this.navCtrl.push(ItemPage)
+  	this.navCtrl.setRoot(ItemPage);
   }
 
 }
