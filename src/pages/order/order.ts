@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ItemPage } from '../item/item';
+import { OrderModel } from '../../model/order-model';
+
+
 /*
   Generated class for the Order page.
 
@@ -13,14 +18,34 @@ import { ItemPage } from '../item/item';
 })
 export class OrderPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  order: OrderModel;
+  orderForm : FormGroup;
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private fb: FormBuilder,) {
+
+      this.orderForm = fb.group({
+          'orderNumber' : [null, Validators.compose([Validators.required])],
+          'description' : [null, Validators.compose([Validators.required])]
+      
+        });
+
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderPage');
+   
+  }
+
+  saveNewOrder(value: any):void{
+    if(!this.orderForm.valid){return;}
+    let date = new Date();
+    this.order = new OrderModel(value.orderNumber,value.description,date.toISOString(),[]);
+    
   }
 
   addNewItem():void{  	
-  	this.navCtrl.setRoot(ItemPage);
+  	this.navCtrl.push(ItemPage);
   }
 
 }

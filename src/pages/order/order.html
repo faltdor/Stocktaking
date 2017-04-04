@@ -7,37 +7,54 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{title}}</ion-title>
+    <ion-title text-center>Create Order</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ion-list no-lines>
-	  <ion-item>
-	    <ion-label floating color="primary">Order</ion-label>
-	    <ion-input type="text" clearInput></ion-input>
-	  </ion-item>
-	  <ion-item>
-	    <ion-label stacked color="primary">Description</ion-label>
-	    <ion-textarea type="text" clearInput></ion-textarea>
-	  </ion-item>
-	  <ion-item>
-		  <button ion-button color="light" block (click)="addNewItem()">
-		  	<ion-icon name="add"></ion-icon>New Item
-		  </button>
-	  </ion-item>
-	</ion-list>
+	<div padding *ngIf="!order">
+		<form [formGroup]="orderForm" (ngSubmit)="saveNewOrder(orderForm.value)">
+		        <ion-item>
+		            <ion-label floating>Order...</ion-label>
+		            <ion-input type="text" value="" [formControl]="orderForm.controls['orderNumber']" [ngClass]="{'error-border':!orderForm.controls['orderNumber'].valid}"></ion-input>          
+		        </ion-item>
+		        <ion-item>
+		            <ion-label floating>Description...</ion-label>
+		            <ion-input type="text" value="" [formControl]="orderForm.controls['description']" [ngClass]="{'error-border':!orderForm.controls['description'].valid}"></ion-input>          
+		        </ion-item>
+		        <br/>
+		        <div class="error-box" *ngIf="orderForm.controls['description'].hasError('required') && orderForm.controls['description'].touched">* Quantity is required!</div>
+
+				<button type="submit" ion-button color="light" full [disabled]="!orderForm.valid">
+					<ion-icon name="save"></ion-icon>
+					Save
+				</button>
+		</form>
+	</div>
+	<ion-card *ngIf="order">	  
+	  <ion-card-content>
+	    <ion-card-title>
+	      {{order.orderNumber}}
+	      </ion-card-title>
+	    <p>
+	      {{order.description}}
+	    </p>
+	    <ion-row>
+		    <ion-col>
+		      <button ion-button icon-left color="light" full  (click)="addNewItem()">
+			  	<ion-icon name="add"></ion-icon> New Item
+			</button>
+		    </ion-col>
+		</ion-row>
+	    
+	  </ion-card-content>
+	</ion-card>
 
 	<ion-list>
 	  <ion-item-sliding *ngFor="let item of items | async">
-	    <ion-item>
-	      <ion-avatar item-left>
-	        <img src="img/slimer.png">
-	      </ion-avatar>
-	      <h2>{{item.description}}</h2>
-	    </ion-item>
+	    <h4>{{ item.code }} : {{item.description}}</h4>
 	    <ion-item-options side="left">
 	      <button ion-button color="primary">
 	        <ion-icon name="md-clipboard"></ion-icon>

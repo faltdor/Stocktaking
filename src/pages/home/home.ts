@@ -27,8 +27,8 @@ export class HomePage {
   			let savedOrderlists: any = false;	
   			
   			if(typeof(orderList) != "undefined"){
-				savedOrderlists = JSON.parse(orderList);
-			}
+  				savedOrderlists = JSON.parse(orderList);
+  			}
 
 
 			if(savedOrderlists){	

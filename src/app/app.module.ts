@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Keyboard } from '@ionic-native/keyboard';
-
+import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
@@ -33,7 +33,9 @@ import { OrderService } from '../providers/order-service';
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
