@@ -4,12 +4,13 @@ export class OrderModel  {
 
 	ordersList: any;
 	ordersObserver: any;
+	items: any[];
 
 	constructor(private orderNumber: string,
 				private description:string,
 				private orderDate: string,
-				public items: any[]) {
-		this.items = items;
+				private itemsList: any[]) {
+		this.items = itemsList;
 
 		this.ordersList = Observable.create(observer => {
 								 this.ordersObserver = observer;
@@ -17,11 +18,8 @@ export class OrderModel  {
 	}
 
 	addItem(item): void {
-		this.items.push({
-			title: item,
-			checked: false
-		});
-		this.ordersObserver.next(true);
+		this.items.push(item);
+		//this.ordersObserver.next(true);
 	}
 
 	removeItem(item): void {
@@ -29,7 +27,7 @@ export class OrderModel  {
 		if(index > -1){
 			this.items.splice(index, 1);
 		}
-		this.ordersObserver.next(true);
+		//this.ordersObserver.next(true);
 	}
 
 	renameItem(item, title): void {
@@ -37,7 +35,7 @@ export class OrderModel  {
 		if(index > -1){
 			this.items[index].title = title;
 		}
-		this.ordersObserver.next(true);
+		//this.ordersObserver.next(true);
 	}
 
 	public orderListUpdates(): Observable<any> {

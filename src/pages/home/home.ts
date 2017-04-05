@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController ,Platform} from 'ionic-angular';
+import { Subscription }   from 'rxjs/Subscription';
 
 import {OrderPage} from '../order/order';
 
-import { OrderService } from '../../providers/order-service';	
+import { OrderService } from '../../providers/order-service';
+import { StorageService } from '../../providers/storage-service';
+
 import { OrderModel } from '../../model/order-model';
 
 
@@ -15,17 +18,25 @@ export class HomePage {
   title : string = 'Home';
   orders: OrderModel[] = [];
 
+  subscription: Subscription;
+
   constructor(public navCtrl: NavController, 
   			  private orderService:OrderService,
+          private storageService:StorageService,
   			  public platform: Platform) {
+
+    this.subscription = this.orderService.orderAnnounced$.subscribe(orders =>{
+          this.orders = orders;        
+      });
 
   }
 
   ionViewDidLoad(){
   	this.platform.ready().then(()=>{
-  		this.orderService.getOrders().then(orderList =>{
+
+  		this.storageService.loadOrders().then(orderList =>{
   			let savedOrderlists: any = false;	
-  			
+
   			if(typeof(orderList) != "undefined"){
   				savedOrderlists = JSON.parse(orderList);
   			}

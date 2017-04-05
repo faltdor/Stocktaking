@@ -51,21 +51,24 @@
 	    
 	  </ion-card-content>
 	</ion-card>
+	
+	<ion-list *ngIf="order">
+		<ion-item *ngFor="let item of order.items">
+			<ion-row>
+				<ion-col>
+					<h3>{{item.description}}</h3>
+				</ion-col>				
+			</ion-row> 
+			<ion-row>
+				<ion-col>
+					<h4>{{item.quantity}} {{item.unit}}</h4>
+					<p>{{item.observation}}</p>
+				</ion-col>				
+			</ion-row>			
+		</ion-item>
 
-	<ion-list>
-	  <ion-item-sliding *ngFor="let item of items | async">
-	    <h4>{{ item.code }} : {{item.description}}</h4>
-	    <ion-item-options side="left">
-	      <button ion-button color="primary">
-	        <ion-icon name="md-clipboard"></ion-icon>
-	        Edit
-	      </button>
-	      <button ion-button color="secondary">
-	        <ion-icon name="md-trash"></ion-icon>
-	        Delete
-	      </button>
-	    </ion-item-options>
-	  </ion-item-sliding>
+		
+
 	</ion-list>
 	
 </ion-content>

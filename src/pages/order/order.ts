@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams , ModalController , Events} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ItemPage } from '../item/item';
 import { OrderModel } from '../../model/order-model';
+
+import { OrderService } from '../../providers/order-service';
 
 
 /*
@@ -22,8 +24,11 @@ export class OrderPage {
   orderForm : FormGroup;
 
   constructor(public navCtrl: NavController, 
+              public modalCtrl:ModalController,
               public navParams: NavParams,
-              private fb: FormBuilder,) {
+              private _event: Events,
+              private fb: FormBuilder,
+              private orderService:OrderService) {
 
       this.orderForm = fb.group({
           'orderNumber' : [null, Validators.compose([Validators.required])],
@@ -31,21 +36,28 @@ export class OrderPage {
       
         });
 
+     //this.items.push({code: "0001", description: "Test 1 Description", unit: "UND", quantity: "1000", observation: "xxxxxx"})
+
   }
 
   ionViewDidLoad() {
-   
+     this._event.subscribe('item:added',(data) =>{
+       this.order.addItem(data);
+     })
   }
 
   saveNewOrder(value: any):void{
     if(!this.orderForm.valid){return;}
     let date = new Date();
     this.order = new OrderModel(value.orderNumber,value.description,date.toISOString(),[]);
-    
+    this.orderService.addOrder(this.order);
   }
 
   addNewItem():void{  	
-  	this.navCtrl.push(ItemPage);
+  	//this.navCtrl.push(ItemPage);
+    let modal = this.modalCtrl.create(ItemPage);
+    modal.present();
+
   }
 
 }

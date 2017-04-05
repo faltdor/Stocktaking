@@ -12,14 +12,12 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { OrderPage } from '../pages/order/order';
 import { ItemPage } from '../pages/item/item';
 
-
-
-
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { OrderService } from '../providers/order-service';
+import { StorageService } from '../providers/storage-service';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +50,8 @@ import { OrderService } from '../providers/order-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OrderService,
-    Keyboard
+    Keyboard,
+    StorageService
   ]
 })
 export class AppModule {}

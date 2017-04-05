@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController , Events} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { checkFirstCharacterValidator ,checkValueGreaterThan0,checkValueIsNumber } from '../validators/customValidators';
 import {ItemService} from '../../providers/item-service';
@@ -20,13 +20,15 @@ export class ItemPage {
   itemSearch :string = ''	;
   itemSelected :any;
 
-  items:any;	
+  items:any= [];	
   filterItems:any;
 
 
   itemsForm : FormGroup;
 
 	constructor(public navCtrl: NavController, 
+				private viewCtrl:ViewController,
+				private _events:Events,
 				private fb: FormBuilder,
 				private itemService:ItemService) {
 
@@ -48,8 +50,13 @@ export class ItemPage {
   	}
 
   	submitForm(value: any):void{
-		console.log('Form submited!')
-		console.log(value);
+	   if(!this.itemsForm.valid){return;}
+	   let item = this.itemSelected;
+	   item.quantity = value.quantity;
+	   
+	   this._events.publish('item:added',item);
+	   this.closeModal();
+
 	}
 
 	onCancel(ev:any){
@@ -78,4 +85,8 @@ export class ItemPage {
 		this.filterItems =[];
 	}
 
-}
+	closeModal():void{
+		this.viewCtrl.dismiss()
+	}
+
+}   

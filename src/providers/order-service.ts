@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-//import { Http } from '@angular/http';
+import { Subject }    from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
-import { Storage } from '@ionic/storage';
+
+import { OrderModel } from '../model/order-model';
+
+import { StorageService } from './storage-service';
 
 /*
   Generated class for the OrderService provider.
@@ -14,49 +17,48 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class OrderService {
 
-  orders: any[] = [];
+  // Observable sources  
+  private ordersSource =  new Subject<any>();
 
-  constructor(public storage: Storage) {
-    let order = [{
-         orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)', 
-         description: 'Test 1 Description', 
-         orderNumber: '39.99', 
-         items:  [
-            {orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)', description: 'Test 1 Description', orderNumber: '39.99'},
-            {orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)', description: 'Test 2 Description', orderNumber: '29.99'},
-            {orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)', description: 'Test 3 Description', orderNumber: '19.99'}
-          ]
-        }]
+  // Observable string streams
+  public orderAnnounced$ = this.ordersSource.asObservable();
 
-     this.save(order);
+  private orders: OrderModel[] = [];
 
-  }
-
-  public getOrders():Promise<any>{    
-  	return this.storage.get('orderlists');
-  }
-
-  save(data): void {
-  	let saveData = [];
-  	//Remove observables
-  	data.forEach((orderlists) => {
-  		saveData.push({
-         orderDate: orderlists.orderDate, 
-         description: orderlists.description, 
-         orderNumber: orderlists.orderNumber, 			
-  			 items: orderlists.items
-  		});
-  	});
-  	let newData = JSON.stringify(saveData);
-  	this.storage.set('orderlists', newData);	
+  constructor(public storageService: StorageService) {
+    
+    this.load();
   }
 
 
+  private load(){
+    
+      this.storageService.loadOrders().then(orderList =>{
+        if(typeof(orderList) != "undefined"){  
+          let savedOrderlists : any = JSON.parse(orderList);
 
+          savedOrderlists.forEach((savedOrderlist) => {
+            let loadOrderlist = new OrderModel(savedOrderlist.orderNumber,
+                               savedOrderlist.description,
+                               savedOrderlist.orderDate,
+                               savedOrderlist.items);
+
+            this.orders.push(loadOrderlist);     
+        
+          });
+        }  
+      });    
+  }
+
+  getOrders(): any[] {
+    return this.orders;
+  };
 
   public addOrder(order: any): void {
   	if(!(this.orders.indexOf(order) > -1)){
   		this.orders.push(order);
+      this.announceChange(this.orders);
+      this.storageService.saveOrders(this.orders);
   	}
   }
  
@@ -65,7 +67,13 @@ export class OrderService {
 
   	if(index > -1){
   		this.orders.splice(index,1);
+      this.announceChange(this.orders);
+      this.storageService.saveOrders(this.orders);
   	}
+  }
+
+  announceChange(orders: any) {
+    this.ordersSource.next(orders);
   }
 
 }
