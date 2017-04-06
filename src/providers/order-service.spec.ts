@@ -1,9 +1,10 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
-import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { OrderService } from './order-service';
+import { StorageService } from './storage-service';
 
 
 describe('Provider: Order Service',()=>{
@@ -16,7 +17,8 @@ describe('Provider: Order Service',()=>{
             ],
  
             providers: [
-                OrderService,
+                OrderService,                
+                StorageService,
                 MockBackend,
                 BaseRequestOptions,
                 {

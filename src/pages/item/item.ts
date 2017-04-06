@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController , Events} from 'ionic-angular';
+import { NavController, ViewController , Events} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { checkFirstCharacterValidator ,checkValueGreaterThan0,checkValueIsNumber } from '../validators/customValidators';
-import {ItemService} from '../../providers/item-service';
+//import { checkFirstCharacterValidator ,checkValueGreaterThan0,checkValueIsNumber } from '../validators/customValidators';
+import { ItemService } from '../../providers/item-service';
 
 /*
   Generated class for the Item page.
@@ -86,7 +86,7 @@ export class ItemPage {
 	}
 
 	closeModal():void{
-		this.viewCtrl.dismiss()
+		this.viewCtrl.dismiss();
 	}
 
 }   

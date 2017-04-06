@@ -112,3 +112,19 @@ export class OrderServiceMock {
   public deleteOrder(order: Object): void {}
  
 }
+
+
+export class StorageServiceMock {
+
+}
+
+import { ViewController, ModalController } from 'ionic-angular';
+
+export class ViewControllerMock extends ViewController {
+  
+}
+
+export class EventsMock{}
+
+export class ModalControllerMock extends ModalController{}
+

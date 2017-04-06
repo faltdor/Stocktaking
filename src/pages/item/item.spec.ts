@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+//import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { NavController , NavParams } from 'ionic-angular';
@@ -7,7 +7,10 @@ import { NavController , NavParams } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
 import { ItemPage } from './item';
 
-import { NavMock, NavParamsMock} from '../../mocks';
+import { NavMock, NavParamsMock , StorageServiceMock} from '../../mocks';
+
+import { ItemService } from '../../providers/item-service';
+
 
 let comp: ItemPage;
 let fixture: ComponentFixture<ItemPage>;
@@ -21,7 +24,8 @@ describe('Page: Item Page',()=>{
 			declarations: [MyApp,ItemPage],
 			providers : [
 				{provide: NavController , useClass: NavMock},
-                {provide: NavParams, useClass: NavParamsMock}
+                {provide: NavParams, useClass: NavParamsMock},
+                {provider: ItemService, useClass:StorageServiceMock}
 			],
 			imports :[
 				IonicModule.forRoot(MyApp)

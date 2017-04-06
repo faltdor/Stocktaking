@@ -1,6 +1,4 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { FormControl, FormGroup } from "@angular/forms";
-
 
 export function checkFirstCharacterValidator(nameRe: RegExp): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {

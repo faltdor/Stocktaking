@@ -5,12 +5,13 @@ import { IonicModule } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
 import { HomePage } from './home';
 
-import { NavController } from 'ionic-angular';
+import { NavController,ModalController } from 'ionic-angular';
 import { OrderService } from '../../providers/order-service';
+import { StorageService } from '../../providers/storage-service';
 
-import { NavMock, OrderServiceMock } from '../../mocks';
 
-import { OrderModel } from '../../model/order-model';
+import { NavMock, OrderServiceMock, StorageServiceMock,ModalControllerMock} from '../../mocks';
+
  
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
@@ -27,7 +28,10 @@ describe('Page: Home Page', () => {
  
             providers: [
                  {provide: NavController , useClass: NavMock},
-                 {provide: OrderService , useClass: OrderServiceMock}
+                 {provide: ModalController , useClass: ModalControllerMock},
+                 
+                 {provide: OrderService , useClass: OrderServiceMock},
+                 {provider:StorageService, useClasss:StorageServiceMock}
             ],
  
             imports: [

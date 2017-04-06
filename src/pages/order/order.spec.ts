@@ -1,13 +1,16 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+//import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { NavController , NavParams } from 'ionic-angular';
+import { NavController , NavParams ,ModalController , Events,ViewController} from 'ionic-angular';
 
 import { MyApp } from '../../app/app.component';
 import { OrderPage } from './order';
 
-import { NavMock, OrderServiceMock ,NavParamsMock} from '../../mocks';
+import { NavMock, OrderServiceMock ,NavParamsMock ,ViewControllerMock ,ModalControllerMock} from '../../mocks';
+import { OrderService } from '../../providers/order-service';
+
+import {EventsMock} from 'ionic-mocks';
 
 let comp: OrderPage;
 let fixture: ComponentFixture<OrderPage>;
@@ -21,7 +24,15 @@ describe('Page: Order Page',()=>{
  
             providers: [
                  {provide: NavController , useClass: NavMock},
-                 {provide: NavParams, useClass: NavParamsMock}
+                 {provide: NavParams, useClass: NavParamsMock},
+                 {provide: ViewController, useClass: ViewControllerMock},
+                 {provide: ModalController, useClass: ModalControllerMock},
+                 {provide: Events, useClass: EventsMock},
+                 {provide: OrderService, useClass: OrderServiceMock},
+                 
+
+       
+                 
                  
             ],
  

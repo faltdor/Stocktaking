@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController ,Platform} from 'ionic-angular';
+import { NavController ,Platform , ModalController} from 'ionic-angular';
 import { Subscription }   from 'rxjs/Subscription';
 
 import {OrderPage} from '../order/order';
@@ -21,9 +21,10 @@ export class HomePage {
   subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
-  			  private orderService:OrderService,
-          private storageService:StorageService,
-  			  public platform: Platform) {
+              private modalCtrl:ModalController,
+      			  private orderService:OrderService,
+              private storageService:StorageService,
+  			      public platform: Platform) {
 
     this.subscription = this.orderService.orderAnnounced$.subscribe(orders =>{
           this.orders = orders;        
@@ -63,12 +64,20 @@ export class HomePage {
   }
 
   addOrder():void{
-  	this.navCtrl.push(OrderPage)
+  	//this.navCtrl.push(OrderPage)
+    let modal = this.modalCtrl.create(OrderPage);
+    modal.present();
   }
 
 
-  changeTitle(title:string){
-  	this.title = title;
+  onOrderSelected(order:OrderModel):void{
+    let modal = this.modalCtrl.create(OrderPage,{order:order});
+    modal.present();
   }
+
+  changeTitle(title){
+    this.title = title;
+  }
+
 
 }

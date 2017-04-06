@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams , ModalController , Events} from 'ionic-angular';
+import { NavController, NavParams , ModalController , Events,ViewController} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ItemPage } from '../item/item';
@@ -25,6 +25,7 @@ export class OrderPage {
 
   constructor(public navCtrl: NavController, 
               public modalCtrl:ModalController,
+              private viewCtrl:ViewController,
               public navParams: NavParams,
               private _event: Events,
               private fb: FormBuilder,
@@ -43,7 +44,10 @@ export class OrderPage {
   ionViewDidLoad() {
      this._event.subscribe('item:added',(data) =>{
        this.order.addItem(data);
-     })
+     });
+     let parmOrder = this.navParams.get('order');
+
+     ( parmOrder != 'undefined') ? this.order = parmOrder: false;
   }
 
   saveNewOrder(value: any):void{
@@ -58,6 +62,10 @@ export class OrderPage {
     let modal = this.modalCtrl.create(ItemPage);
     modal.present();
 
+  }
+
+  closeModal():void{
+    this.viewCtrl.dismiss();
   }
 
 }
