@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController , Events} from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController, ViewController , Events , NavParams} from 'ionic-angular';
+import { FormBuilder } from '@angular/forms';
 //import { checkFirstCharacterValidator ,checkValueGreaterThan0,checkValueIsNumber } from '../validators/customValidators';
 import { ItemService } from '../../providers/item-service';
 
@@ -18,26 +18,29 @@ import { ItemService } from '../../providers/item-service';
 export class ItemPage {
   
   itemSearch :string = ''	;
+  quantity : string = '';
   itemSelected :any;
 
   items:any= [];	
   filterItems:any;
 
 
-  itemsForm : FormGroup;
+  //itemsForm : FormGroup;
 
 	constructor(public navCtrl: NavController, 
 				private viewCtrl:ViewController,
+				public navParams: NavParams,
 				private _events:Events,
 				private fb: FormBuilder,
 				private itemService:ItemService) {
 
-		this.itemsForm = fb.group({
+		/*this.itemsForm = fb.group({
 		  'quantity' : [null, Validators.compose([Validators.required		  					  
 		  					  
 		  				])]
 		  
-		});  
+		});*/
+
 	}
 
 	ionViewDidLoad() {
@@ -47,10 +50,21 @@ export class ItemPage {
     		this.items = inventory.items;
 
     	});
+
+    	let parmItem = this.navParams.get('item');
+ 	    if(parmItem != 'undefined' && parmItem != null) {
+ 	    	console.log(parmItem);
+			this.itemSelected = parmItem;
+			//this.itemsForm.controls['quantity'].patchValue(parmItem.quantity,{onlySelf: true, emitEvent:true});
+			this.quantity = parmItem.quantity;
+			console.log(this.quantity);
+			//console.log(this.itemsForm.controls['quantity'].value)
+
+		}
   	}
 
   	submitForm(value: any):void{
-	   if(!this.itemsForm.valid){return;}
+	   //if(!this.itemsForm.valid){return;}
 	   let item = this.itemSelected;
 	   item.quantity = value.quantity;
 	   
@@ -87,6 +101,11 @@ export class ItemPage {
 
 	closeModal():void{
 		this.viewCtrl.dismiss();
+	}
+
+	inputValue($event:any):void{
+		console.log(this.quantity);
+		(this.quantity.trim() == '')? this.quantity = '': false;
 	}
 
 }   

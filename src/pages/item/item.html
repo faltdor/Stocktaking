@@ -33,10 +33,32 @@
   	<div *ngIf="itemSelected" padding>	
 	    <h3 color="primary">{{itemSelected.code}}</h3>	    
 	    <p>{{itemSelected.description}}</p>
-	    <form [formGroup]="itemsForm" (ngSubmit)="submitForm(itemsForm.value)">
+	    
+	    <form (ngSubmit)="submitForm(itemsForm.value)" #itemsForm="ngForm">
+	      <div class="form-group">
+	        <ion-label fixe>Quantity...</ion-label>
+	        <ion-input type="text" class="form-control" id="quantity"
+	               required
+	               [(ngModel)]="quantity" name="quantity" #quant="ngModel"
+	               (ionInput)="inputValue($event)"
+	               >
+	        </ion-input>
+	        <div class="error-box"  *ngIf="!quant.valid && quant.touched"
+	             class="alert alert-danger">
+	          * Quantity is required
+	        </div>
+	      </div>
+	      <button type="submit" ion-button color="light" full [disabled]="!itemsForm.form.valid">
+					<ion-icon name="save"></ion-icon>
+					Save
+		  </button>
+	    </form>
+
+
+	    <!--<form [formGroup]="itemsForm" (ngSubmit)="submitForm(itemsForm.value)">
 		        <ion-item>
-		            <ion-label floating>Quantity...</ion-label>
-		            <ion-input type="text" value="" [formControl]="itemsForm.controls['quantity']" [ngClass]="{'error-border':!itemsForm.controls['quantity'].valid}"></ion-input>          
+		            <ion-label fixe>Quantity...</ion-label>
+		            <ion-input type="text" value="" [(ngModel)]="quantity" [formControl]="itemsForm.controls['quantity']" [ngClass]="{'error-border':!itemsForm.controls['quantity'].valid}"></ion-input>          
 		        </ion-item>
 		        <br/>
 		        <div class="error-box" *ngIf="itemsForm.controls['quantity'].hasError('required') && itemsForm.controls['quantity'].touched">* Quantity is required!</div>
@@ -50,7 +72,7 @@
 					<ion-icon name="save"></ion-icon>
 					Save
 				</button>
-		</form>
+		</form>-->
 	</div>
 	 
 </ion-content>

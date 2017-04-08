@@ -6,5 +6,12 @@ page-item {
 	.error-border {
 		color: red;
 	}
+
+	ion-input .ng-valid[required], .ng-valid.required  {
+      border-left: 5px solid #42A948; /* green */
+    }
+    ion-input .ng-invalid:not(form)  {
+      border-left: 5px solid #a94442; /* red */
+    }
 }
 

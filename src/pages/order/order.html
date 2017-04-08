@@ -56,7 +56,7 @@
 	</ion-card>
 	
 	<ion-list *ngIf="order">
-		<ion-item *ngFor="let item of order.items">
+		<ion-item *ngFor="let item of order.items" (click)="editItem(item)">
 			<ion-row>
 				<ion-col>
 					<h3>{{item.description}}</h3>

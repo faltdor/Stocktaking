@@ -18,8 +18,10 @@ export class OrderModel  {
 	}
 
 	addItem(item): void {
-		this.items.push(item);
+		console.log(this.items.indexOf(item));
+		(!(this.items.indexOf(item) > -1)) ? this.items.push(item) : this.renameItem(item);
 		//this.ordersObserver.next(true);
+			
 	}
 
 	removeItem(item): void {
@@ -30,10 +32,18 @@ export class OrderModel  {
 		//this.ordersObserver.next(true);
 	}
 
-	renameItem(item, title): void {
+	renameItem(item): void {
 		let index = this.items.indexOf(item);
+
+		//{code: '0001', description: 'Test 1 Description', unit: 'UND',quantity:'100',observation:'xxxxxx'},
 		if(index > -1){
-			this.items[index].title = title;
+			console.log('find item to update');	
+			this.items[index].code = item.code;
+			this.items[index].description = item.unit;
+			this.items[index].quantity = item.quantity;
+			this.items[index].observation = item.observation;
+			console.log('find item to update');		
+
 		}
 		//this.ordersObserver.next(true);
 	}

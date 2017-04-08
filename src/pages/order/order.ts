@@ -42,9 +42,11 @@ export class OrderPage {
   }
 
   ionViewDidLoad() {
-     this._event.subscribe('item:added',(data) =>{
-       this.order.addItem(data);
+     this._event.subscribe('item:added',(data) =>{       
+         this.order.addItem(data);       
      });
+
+
      let parmOrder = this.navParams.get('order');
 
      ( parmOrder != 'undefined') ? this.order = parmOrder: false;
@@ -66,6 +68,11 @@ export class OrderPage {
 
   closeModal():void{
     this.viewCtrl.dismiss();
+  }
+
+  editItem(item):void{
+      let modal = this.modalCtrl.create(ItemPage,{item:item});
+      modal.present();
   }
 
 }
