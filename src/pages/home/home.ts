@@ -56,6 +56,8 @@ export class HomePage {
 						//this.save();
 					});
 				});
+        this.orderService.setOrders(this.orders);
+        
 			}		
 
 
@@ -77,6 +79,10 @@ export class HomePage {
 
   changeTitle(title){
     this.title = title;
+  }
+
+  removeOrder(order:OrderModel):void{
+    this.orderService.deleteOrder(order);
   }
 
 

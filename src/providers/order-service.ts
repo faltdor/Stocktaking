@@ -27,27 +27,7 @@ export class OrderService {
 
   constructor(public storageService: StorageService) {
     
-    this.load();
-  }
-
-
-  private load(){
     
-      this.storageService.loadOrders().then(orderList =>{
-        if(typeof(orderList) != "undefined"){  
-          let savedOrderlists : any = JSON.parse(orderList);
-
-          savedOrderlists.forEach((savedOrderlist) => {
-            let loadOrderlist = new OrderModel(savedOrderlist.orderNumber,
-                               savedOrderlist.description,
-                               savedOrderlist.orderDate,
-                               savedOrderlist.items);
-
-            this.orders.push(loadOrderlist);     
-        
-          });
-        }  
-      });    
   }
 
   getOrders(): any[] {
@@ -63,17 +43,33 @@ export class OrderService {
   }
  
   public deleteOrder(order: any): void {
-  	let index = this.orders.indexOf(order);
-
-  	if(index > -1){
+    let index = this.orders.indexOf(order);
+    
+  	if(index > -1){      
   		this.orders.splice(index,1);
       this.announceChange(this.orders);
       this.storageService.saveOrders(this.orders);
   	}
   }
 
+  updateOrder(order): void {
+    let index = this.orders.indexOf(order);
+    
+    if(index > -1){                     
+      this.orders[index] = order;
+      this.announceChange(this.orders);
+      this.storageService.saveOrders(this.orders);  
+
+    }
+    //this.ordersObserver.next(true);
+  }
+
   announceChange(orders: any) {
     this.ordersSource.next(orders);
+  }
+
+  setOrders(orders: OrderModel[]){
+    this.orders = orders; 
   }
 
 }

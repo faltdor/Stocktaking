@@ -5,7 +5,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
-import { AboutPage } from '../pages/about/about';
+import { InventoryPage } from '../pages/inventory/inventory';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -22,7 +22,7 @@ import { StorageService } from '../providers/storage-service';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
+    InventoryPage,
     ContactPage,
     HomePage,
     TabsPage,
@@ -38,7 +38,7 @@ import { StorageService } from '../providers/storage-service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    InventoryPage,
     ContactPage,
     HomePage,
     TabsPage,

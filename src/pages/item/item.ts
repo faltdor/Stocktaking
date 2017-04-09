@@ -40,14 +40,15 @@ export class ItemPage {
 		  				])]
 		  
 		});*/
-
+		this.items = [] ;
 	}
 
 	ionViewDidLoad() {
     	this.itemService.getItems().then(data=>{
     				
-    		let inventory = (typeof(data) != "undefined") ? JSON.parse(data): [];
+    		let inventory = ((data != "undefined" && data != null)) ? JSON.parse(data): [];
     		this.items = inventory.items;
+
 
     	});
 
@@ -83,7 +84,9 @@ export class ItemPage {
 		this.itemSearch ='';		 
 	}
 
-	getItems(ev: any) {
+	getItems(ev: any):void {
+		//if(this.items.length ==='undefined'){return;}
+
 	    // set val to the value of the searchbar
 	    let val = ev.target.value;
 	  	

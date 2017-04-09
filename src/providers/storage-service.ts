@@ -13,7 +13,7 @@ export class StorageService {
 
   constructor(public storage: Storage) {
   	console.log('create StorageService')
-  	let order = [{
+  	/*let order = [{
          orderDate: 'Fri Mar 31 2017 14:39:41 GMT-0500 (COT)', 
          description: 'Test 1 Description', 
          orderNumber: '39.99', 
@@ -46,11 +46,12 @@ export class StorageService {
 
         ]
 
-     this.saveOrders(order);
+     this.saveOrders(order);*/
    
   }
 
   public loadOrders():Promise<any>{ 
+    console.log('loadorders' + new Date());
   	return this.storage.get('orderlists');
   }
 
@@ -66,7 +67,8 @@ export class StorageService {
   		});
   	});
   	let newData = JSON.stringify(saveData);
-  	this.storage.set('orderlists', newData);	
+  	this.storage.set('orderlists', newData);
+     console.log('Save orders' + new Date());	
   }
 
 }

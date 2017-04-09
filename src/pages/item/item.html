@@ -12,12 +12,14 @@
     	<button ion-button icon-only (click)="closeModal()"><ion-icon name="close"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
-  <ion-searchbar placeholder="Search Item"
-	  [(ngModel)]="itemSearch"
-	  [showCancelButton]="shouldShowCancel"
-	  (ionInput)="getItems($event)"
-	  (ionCancel)="onCancel($event)">
-  </ion-searchbar>
+  <div *ngIf="items">
+	  <ion-searchbar placeholder="Search Item" 
+	  		  [(ngModel)]="itemSearch"
+		  [showCancelButton]="shouldShowCancel"
+		  (ionInput)="getItems($event)"
+		  (ionCancel)="onCancel($event)">
+	  </ion-searchbar>
+  </div>
 
 
 </ion-header>
@@ -53,26 +55,6 @@
 					Save
 		  </button>
 	    </form>
-
-
-	    <!--<form [formGroup]="itemsForm" (ngSubmit)="submitForm(itemsForm.value)">
-		        <ion-item>
-		            <ion-label fixe>Quantity...</ion-label>
-		            <ion-input type="text" value="" [(ngModel)]="quantity" [formControl]="itemsForm.controls['quantity']" [ngClass]="{'error-border':!itemsForm.controls['quantity'].valid}"></ion-input>          
-		        </ion-item>
-		        <br/>
-		        <div class="error-box" *ngIf="itemsForm.controls['quantity'].hasError('required') && itemsForm.controls['quantity'].touched">* Quantity is required!</div>
-		        
-		        <div class="error-box" *ngIf="itemsForm.controls['quantity'].hasError('greaterThan0') && itemsForm.controls['quantity'].touched">* Quantity must be greater than 0!</div>
-				
-				<div class="error-box" *ngIf="itemsForm.controls['quantity'].hasError('isNumber') && itemsForm.controls['quantity'].touched">* Quantity must be a number!!</div>
-		       <br/>
-				
-				<button type="submit" ion-button color="light" full [disabled]="!itemsForm.valid">
-					<ion-icon name="save"></ion-icon>
-					Save
-				</button>
-		</form>-->
 	</div>
 	 
 </ion-content>

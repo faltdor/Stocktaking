@@ -43,7 +43,8 @@ export class OrderPage {
 
   ionViewDidLoad() {
      this._event.subscribe('item:added',(data) =>{       
-         this.order.addItem(data);       
+         this.order.addItem(data);  
+         this.orderService.updateOrder(this.order);     
      });
 
 
@@ -59,8 +60,7 @@ export class OrderPage {
     this.orderService.addOrder(this.order);
   }
 
-  addNewItem():void{  	
-  	//this.navCtrl.push(ItemPage);
+  addNewItem():void{  	  	
     let modal = this.modalCtrl.create(ItemPage);
     modal.present();
 
@@ -73,6 +73,11 @@ export class OrderPage {
   editItem(item):void{
       let modal = this.modalCtrl.create(ItemPage,{item:item});
       modal.present();
+  }
+
+  removeItem(item):void{
+    this.order.removeItem(item);
+    this.orderService.updateOrder(this.order);
   }
 
 }
